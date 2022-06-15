@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -21,6 +22,7 @@ import org.openqa.selenium.support.ui.Select;
 
 public class Metodos extends Elementos{
 
+	public String urlPadrao = "https://www.invisalign.com.br/";
 	Elementos el = new Elementos();
 	public static WebDriver driver;
 
@@ -38,6 +40,7 @@ public class Metodos extends Elementos{
 			driver = new ChromeDriver();
 			driver.manage().window().maximize();
 			driver.get(url);
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		} else if (browser.equalsIgnoreCase("Firefox")) {
 
@@ -160,7 +163,7 @@ public class Metodos extends Elementos{
 	}
 	
 	public void validarElementoVisivel(By elemento) {
-		
+
 		boolean validacao = driver.findElement(elemento).isDisplayed();
 		assertTrue(validacao);
 	}
@@ -191,6 +194,14 @@ public class Metodos extends Elementos{
 	public void aceitarCookie() {
 		
 		click(By.id("epdsubmit"));
+	}
+	
+	public void validarTitulo(String texto) {
+		
+		String tituloAtual = driver.getTitle();
+		String tituloEsperado = texto;
+		assertEquals(tituloEsperado, tituloAtual);
+		
 	}
 	
 

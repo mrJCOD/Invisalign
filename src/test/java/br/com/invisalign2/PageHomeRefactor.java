@@ -14,20 +14,24 @@ import br.com.invisalign.core.Metodos;
 
 public class PageHomeRefactor extends Metodos {
 
-	String urlPadrao = "https://www.invisalign.com.br/";
-
 
 	@Before
 	public void setUp() throws Exception {
 
 		iniciarTeste("chrome", urlPadrao);
-		//aceitarCookie();
+
 	}
 
 	@After
 	public void tearDown() throws Exception {
 
 		fechar();
+	}
+
+	@Test
+	public void Validar_titulo() {
+
+		validarTitulo("Tratamento Invisalign | Invisalign Alinhador Transparente");
 	}
 
 	@Test
@@ -41,6 +45,7 @@ public class PageHomeRefactor extends Metodos {
 		validarElementoVisivel(By.xpath("(//img[@class='fixed-image-img desktop'])"));
 		validarElementoVisivel(By.xpath("//div[@class='carousel-inner']"));
 		validarElementoVisivel(By.xpath("//img[@alt='Home']"));
+		validarElementoVisivel(By.xpath("//div[@class='sa-background-image-wrapper']"));
 	}
 
 	@Test
@@ -118,40 +123,67 @@ public class PageHomeRefactor extends Metodos {
 
 	@Test
 	public void Validar_Botoes() throws InterruptedException {
+		
 
-		validarTexto(By.xpath("(//a[@class='sa-link'])[1]"), "O Invisalign é Indicado para mim?");
-		click(By.xpath("(//a[@class='sa-link'])[1]"));
-		String urlAtualBotao1 = getUrl();
-		assertEquals(urlPadrao + "como-usar/avaliacao", urlAtualBotao1);
+
+		validarTexto(By.xpath("(//a[@class='btn-blue'])[1]"), "É indicado pra mim?");
+		click(By.xpath("(//a[@class='btn-blue'])[1]"));
+		assertEquals(urlPadrao + "como-usar/avaliacao", getUrl());
 		HomePage();
 
+		scroll(800);
 		validarTexto(By.xpath("//a[@data-slug='invisalign-custo']"), "Saiba mais");
 		click(By.xpath("(//div[@class='get-start']/a)[1]"));
 		Thread.sleep(2000);
-		String urlAtualBotao2 = getUrl();
-		assertEquals(urlPadrao + "invisalign-custo", urlAtualBotao2);
+		assertEquals(urlPadrao + "invisalign-custo", getUrl());
 		HomePage();
 
-		scroll(6000);
+		scroll(1200);
 		validarTexto(By.xpath("(//a[@class='btn-blue'])[2]"), "Como Invisalign funciona");
 		click(By.xpath("(//a[@class='btn-blue'])[2]"));
 		Thread.sleep(2000);
-		String urlAtualBotao3 = getUrl();
-		assertEquals(urlPadrao + "como-funciona", urlAtualBotao3);
+		assertEquals(urlPadrao + "como-funciona", getUrl());
 		HomePage();
 
-		scroll(3900);
+		scroll(1600);
 		validarTexto(By.xpath("(//a[@class='btn-blue'])[3]"), "Encontre um Parceiro");
 		click(By.xpath("(//a[@data-telium-event='homepage_how_invisalign_works'])[2]"));
 		Thread.sleep(1000);
-		String urlAtualBotao4 = getUrl();
-		assertEquals(urlPadrao + "parcerias", urlAtualBotao4);
+		assertEquals(urlPadrao + "parcerias", getUrl());
+		HomePage();
+		
+		scroll(1900);
+		validarTexto(By.xpath("//a[@class='btn-white']"), "Solicite uma consulta");
+		click(By.xpath("//a[@class='btn-white']"));
+		Thread.sleep(1000);
+		assertEquals(urlPadrao + "como-usar/marcar-consulta", getUrl());
+		HomePage();
+		
+		scroll(2100);
+		validarTexto(By.xpath("(//a[@class='btn-blue'])[5]"), "Encontre um ortodontista");
+		click(By.xpath("(//a[@class='btn-blue'])[5]"));
+		Thread.sleep(1000);
+		assertEquals(urlPadrao + "como-usar/encontre-dentista", getUrl());
+		HomePage();
+		
+		Thread.sleep(2000);
+		scroll(500);
+		validarTexto(By.xpath("(//a[@class='btn-blue'])[6]"), "Encontre um ortodontista");
+		click(By.xpath("(//a[@class='btn-blue'])[6]"));
+		
+		assertEquals(urlPadrao + "como-usar/encontre-dentista", getUrl());
+		
+		
+		
+		
+		
+		
 
 	}
 
 	@Test
-	public void Validar_Menus() {
-		
+	public void Validar_Menus() throws InterruptedException {
+
 		Actions acao = new Actions(driver);
 
 		WebElement portal_do_paciente = driver.findElement(By.xpath("(//a[@rel='noopener'])[1]"));
@@ -193,7 +225,7 @@ public class PageHomeRefactor extends Metodos {
 		como_funciona_o_invisalign.click();
 		assertEquals(urlPadrao + "como-funciona", getUrl());
 		click(By.xpath("//img[@alt='Home']"));
-		
+
 		scroll(9000);
 		WebElement como_funciona_o_invisalign_rodape = driver
 				.findElement(By.xpath("(//a[@class='footer-link-header footerclick_track '])[1]"));
@@ -202,7 +234,7 @@ public class PageHomeRefactor extends Metodos {
 		como_funciona_o_invisalign_rodape.click();
 		assertEquals(urlPadrao + "como-funciona", getUrl());
 		click(By.xpath("//img[@alt='Home']"));
-		
+
 		WebElement qual_a_diferenca_do_invisalign = driver
 				.findElement(By.xpath("(//div[@class='dropdown-heading'])[2]"));
 		validarElementoVisivel(By.xpath("(//div[@class='dropdown-heading'])[2]"));
@@ -214,41 +246,39 @@ public class PageHomeRefactor extends Metodos {
 		validarElementoVisivel(By.xpath("//a[@class='class_smart_force_sub_menu dropdown-item']"));
 		validarElementoVisivel(By.xpath("//a[@class='class_mandibular_sub_menu dropdown-item']"));
 		validarElementoVisivel(By.xpath("(//div[@class='dropdown-heading'])[3]"));
-		
-		
+
 		scroll(9000);
 		validarElementoVisivel(By.xpath("(//a[@class='footer-link-header footerclick_track '])[2]"));
-		validarTexto(By.xpath("(//a[@class='footer-link-header footerclick_track '])[2]"), "Qual a diferença do Invisalign?");
+		validarTexto(By.xpath("(//a[@class='footer-link-header footerclick_track '])[2]"),
+				"Qual a diferença do Invisalign?");
 		click(By.xpath("(//a[@class='footer-link-header footerclick_track '])[2]"));
 		assertEquals(urlPadrao + "a-diferenca-de-Invisalign/adolescente", getUrl());
-
 
 		validarTexto(By.xpath("(//div[@class='dropdown-heading'])[3]"), "Casos tratáveis");
 		click(By.xpath("(//div[@class='dropdown-heading'])[3]"));
 		assertEquals(urlPadrao + "tratamentos", getUrl());
 		HomePage();
-		
+
 		scroll(9000);
-		validarTexto(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[1]"), "Casos tratáveis");
+		validarTexto(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[1]"),
+				"Casos tratáveis");
 		click(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[1]"));
 		assertEquals(urlPadrao + "tratamentos", getUrl());
 		HomePage();
 
-		
 		validarElementoVisivel(By.xpath("(//div[@class='dropdown-heading'])[4]"));
 		validarTexto(By.xpath("(//div[@class='dropdown-heading'])[4]"), "Custo do Invisalign");
 		click(By.xpath("(//div[@class='dropdown-heading'])[4]"));
 		assertEquals(urlPadrao + "invisalign-custo", getUrl());
 		HomePage();
-		
+
 		scroll(9000);
 		validarElementoVisivel(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[2]"));
-		validarTexto(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[2]"), "Custo do Invisalign");
+		validarTexto(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[2]"),
+				"Custo do Invisalign");
 		click(By.xpath("(//a[@class='footer-link-header footerclick_track footer-no-child'])[2]"));
 		assertEquals(urlPadrao + "invisalign-custo", getUrl());
 		HomePage();
-		
-		
 
 		WebElement use_invisalign = driver.findElement(By.xpath("(//a[@class='dropdown-toggle nav-link'])[5]"));
 		validarElementoVisivel(By.xpath("(//a[@class='dropdown-toggle nav-link'])[5]"));
@@ -259,10 +289,10 @@ public class PageHomeRefactor extends Metodos {
 		validarElementoVisivel(By.xpath("//a[@class='class_find_a_doctor_sub_menu dropdown-item']"));
 		validarElementoVisivel(By.xpath("//a[@class='class_take_smile_assessment_sub_menu dropdown-item']"));
 		validarElementoVisivel(By.xpath("//a[@class='class_contact_us_sub_menu dropdown-item']"));
-
-		
 		
 	}
+	
+
 
 	@Test
 	public void validar_campo_cep() {
@@ -309,5 +339,80 @@ public class PageHomeRefactor extends Metodos {
 		validarElementoVisivel(By.xpath("//div[@role='region']"));
 
 	}
+
+	@Test
+	public void Validar_Imagens_Slide_Show() throws InterruptedException {
+
+		scroll(3000);
+		validarElementoVisivel(By.xpath("//img[@alt='Group 161']"));
+		click(By.xpath("(//ol[@class='carousel-indicators']/li)[2]"));
+		Thread.sleep(2000);
+		validarElementoVisivel(By.xpath("//img[@alt='step 2 easy step carousel']"));
+		click(By.xpath("(//ol[@class='carousel-indicators']/li)[3]"));
+		validarElementoVisivel(By.xpath("//img[@alt='Group 6 1']"));
+
+	}
+
+	@Test
+	public void Validar_Textos_Slide_Show() {
+
+		scroll(3000);
+		validarTexto(By.xpath("(//h2)[7]"), "Passo 1");
+		validarTexto(By.xpath("(//h3)[4]"), "Passe em consulta e veja uma simulação do seu novo sorriso");
+		validarTexto(By.xpath("(//h4)[2]"),
+				"Usando o scanner iTero Element®, seu ortodontista poderá digitalizar o seu sorriso em 3D de forma rápida e precisa3 e poderá fazer um mapeamento do seu tratamento personalizado especialmente para você.");
+		click(By.xpath("(//ol[@class='carousel-indicators']/li)[2]"));
+		validarTexto(By.xpath("(//h2)[7]"), "Passo 2");
+		validarTexto(By.xpath("(//h3)[4]"), "Comece a transformar seu sorriso desde o primeiro alinhador");
+		validarTexto(By.xpath("(//h4)[2]"),
+				"Este é um momento chave no sucesso do seu tratamento. Seu ortodontista vai garantir que seus alinhadores se adaptem perfeitamente aos seus dentes, responderá suas dúvidas e explicará o que esperar do seu tratamento.");
+		click(By.xpath("(//ol[@class='carousel-indicators']/li)[3]"));
+		validarTexto(By.xpath("(//h2)[7]"), "Passo 3");
+		validarTexto(By.xpath("(//h3)[4]"), "Mantenha seu mais novo sorriso lindo");
+		validarTexto(By.xpath("(//h4)[2]"),
+				"Você transformou seu sorriso com o sistema de alinhadores mais avançado do mundo. Agora é fácil manter o sorriso que você conquistou. Nossa contenção Vivera é feita sob medida e é 30% mais resistente que outras contenções.4");
+
+	}
+
+	@Test
+	public void Validar_botao_Slide_Show() {
+
+		scroll(3000);
+		validarElementoVisivel(By.xpath("(//a[@class='btn-blue'])[4]"));
+		validarTexto(By.xpath("(//a[@class='btn-blue'])[4]"), "Saiba mais sobre o Scanner iTero®");
+		click(By.xpath("(//a[@class='btn-blue'])[4]"));
+		assertEquals(urlPadrao + "vantagens/itero-scanner-3d", getUrl());
+
+		HomePage();
+		scroll(3000);
+		click(By.xpath("(//ol[@class='carousel-indicators']/li)[2]"));
+
+		validarElementoVisivel(By.xpath("(//a[@class='btn-blue'])[4]"));
+		validarTexto(By.xpath("(//a[@class='btn-blue'])[4]"), "Saiba mais sobre o material SmartTrack®");
+		click(By.xpath("(//a[@class='btn-blue'])[4]"));
+		assertEquals(urlPadrao + "vantagens/smarttrack-material", getUrl());
+
+	}
+	
+	@Test
+	public void Validar_Botao_Comece_Agora() {
+		
+		scroll(4200);
+		click(By.xpath("//*[text()='Comece agora']"));
+		validarElementoVisivel(By.xpath("(//h2)[9]"));
+		validarTexto(By.xpath("(//h2)[9]"), "Quer saber mais sobre o tratamento Invisalign?");
+		validarTexto(By.xpath("(//h4)[4]"), "Sem problemas, nos conte um pouco mais sobre você.");
+		validarTexto(By.xpath("//p[@class='active']"), "01");
+		validarTexto(By.xpath("(//div[@class='inner-wrap']/span)[2]"), "02");
+		
+		validarElementoVisivel(By.xpath("//label[@for='homepage_sa_teen']"));
+		validarElementoVisivel(By.xpath("//label[@for='homepage_sa_parent']"));
+		validarElementoVisivel(By.xpath("//label[@for='homepage_sa_adult']"));
+		
+	}
+	
+	
+	
+	
 
 }
