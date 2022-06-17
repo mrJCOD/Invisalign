@@ -23,6 +23,7 @@ import org.openqa.selenium.support.ui.Select;
 public class Metodos extends Elementos{
 
 	public String urlPadrao = "https://www.invisalign.com.br/";
+	public String urlMy = "https://my.invisalign.com.br/";
 	Elementos el = new Elementos();
 	public static WebDriver driver;
 
@@ -175,6 +176,14 @@ public class Metodos extends Elementos{
 		assertEquals(textoEsperado, textoGet);
 	}
 	
+	public void validarAtributo(By elemento, String atributo, String valorEsperado) {
+		
+		String valorDoElemento = driver.findElement(elemento).getAttribute(atributo);
+		String valorDoElementoEsperado = valorEsperado;
+		assertEquals(valorDoElementoEsperado, valorDoElemento);
+		
+	}
+	
 	public String getUrl() {
 		
 		return driver.getCurrentUrl();
@@ -201,6 +210,11 @@ public class Metodos extends Elementos{
 		String tituloAtual = driver.getTitle();
 		String tituloEsperado = texto;
 		assertEquals(tituloEsperado, tituloAtual);
+		
+	}
+	
+	public void validarCheckBox(By elemento) {
+		assertTrue(driver.findElement(elemento).isSelected());
 		
 	}
 	
