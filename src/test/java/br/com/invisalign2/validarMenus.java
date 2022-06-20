@@ -35,19 +35,19 @@ public class validarMenus extends Metodos{
 		assertTrue(portal_do_paciente.isDisplayed());
 		assertEquals("Portal do paciente|", portal_do_paciente.getText());
 		portal_do_paciente.click();
-		alternarAba1();
+		alternarAba(1);
 		assertEquals("https://my.invisalign.com.br/login", getUrl());
 		fecharAba();
-		alternarAba0();
+		alternarAba(0);
 
 		WebElement portal_para_doutores = driver.findElement(By.xpath("(//a[@rel='noopener'])[2]"));
 		assertTrue(portal_para_doutores.isDisplayed());
 		assertEquals("Para doutores", portal_para_doutores.getText());
 		portal_para_doutores.click();
-		alternarAba1();
+		alternarAba(1);
 		assertEquals("https://www.doutor.invisalign.com.br/pt", getUrl());
 		fecharAba();
-		alternarAba0();
+		alternarAba(0);
 
 		WebElement invisalign_para_mim = driver.findElement(By.xpath("(//a[@class='sa-link'])[1]"));
 		assertTrue(invisalign_para_mim.isDisplayed());

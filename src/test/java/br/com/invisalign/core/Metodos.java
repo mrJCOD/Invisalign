@@ -18,9 +18,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Metodos extends Elementos{
+public class Metodos extends Elementos {
 
 	public String urlPadrao = "https://www.invisalign.com.br/";
 	public String urlMy = "https://my.invisalign.com.br/";
@@ -62,13 +65,16 @@ public class Metodos extends Elementos{
 		} else {
 
 			System.out.println("Nenhum navegador Web configurado com este nome.");
+
 		}
 
 	}
 
 	public void click(By elemento) {
 
-		driver.findElement(elemento).click();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(elemento));
+		element.click();
 	}
 
 	public void digitar(String texto, By elemento) {
@@ -86,13 +92,9 @@ public class Metodos extends Elementos{
 		driver.switchTo().alert().accept();
 	}
 
-	public void escreverPrompt(String texto) {
 
-		driver.switchTo().alert().sendKeys(texto);
-	}
-	
 	public String pegarTextoAlerta() {
-		
+
 		return driver.switchTo().alert().getText();
 	}
 
@@ -106,36 +108,95 @@ public class Metodos extends Elementos{
 
 		driver.quit();
 	}
-	
+
 	public void fecharAba() {
-		
+
 		driver.close();
 	}
 
-	public void iframe(String id) {
 
-		driver.switchTo().frame(id);
-		
-
-	}
-
-	public void alternarAba0() {
+	public void alternarAba(int aba) {
 
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(0));
+		driver.switchTo().window(tabs.get(aba));
 	}
 
-	public void alternarAba1() {
+	public void scroll(int numero) {
 
-		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
+		JavascriptExecutor scroll = (JavascriptExecutor) driver;
+		scroll.executeScript("window.scrollBy(0," + numero + ")");
+	}
+
+	public void printScr(String nome) throws IOException {
+
+		TakesScreenshot scrShot = ((TakesScreenshot) navegador());
+		File nomeArq = scrShot.getScreenshotAs(OutputType.FILE);
+		File destArq = new File("./src/evidencias/" + nome + ".png");
+		FileUtils.copyFile(nomeArq, destArq);
 
 	}
-	
-	public void buscarElemento(By elemento) {
-		
-		driver.findElement(elemento);
-		
+
+	public void validarElementoVisivel(By elemento) {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(elemento));
+		boolean validacao = element.isDisplayed();
+		assertTrue(validacao);
+	}
+
+	public void validarTexto(By elemento, String texto) {
+		WebElement myDynamicElement = (new WebDriverWait(driver, 10))
+				.until(ExpectedConditions.presenceOfElementLocated(elemento));
+		String textoGet = myDynamicElement.getText();
+		String textoEsperado = texto;
+		assertEquals(textoEsperado, textoGet);
+	}
+
+	public void validarAtributo(By elemento, String atributo, String valorEsperado) {
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(elemento));
+		String valorDoElemento = element.getAttribute(atributo);
+		String valorDoElementoEsperado = valorEsperado;
+		assertEquals(valorDoElementoEsperado, valorDoElemento);
+
+	}
+
+	public String getUrl() {
+
+		return driver.getCurrentUrl();
+	}
+
+	public void HomePage() {
+
+		click(By.xpath("//img[@alt='Home']"));
+	}
+
+
+	public void aceitarCookie() {
+
+		click(By.id("epdsubmit"));
+	}
+
+	public void validarTitulo(String texto) {
+
+		String tituloAtual = driver.getTitle();
+		String tituloEsperado = texto;
+		assertEquals(tituloEsperado, tituloAtual);
+
+	}
+
+	public void validarCheckBox(By elemento) {
+		assertTrue(driver.findElement(elemento).isSelected());
+
+	}
+
+	public void passarMouse(By elemento) {
+
+		Actions acao = new Actions(driver);
+		WebElement element = driver.findElement(elemento);
+		acao.moveToElement(element).build().perform();
+
 	}
 	
 	public void select(By elemento, String texto, String value, int index) {
@@ -147,81 +208,5 @@ public class Metodos extends Elementos{
 		select.selectByVisibleText(texto);
 		
 	}
-	
-	public void scroll(int numero) {
-		
-		JavascriptExecutor scroll = (JavascriptExecutor)driver;
-		scroll.executeScript("window.scrollBy(0,"+numero+")");
-	}
-	
-	public void printScr(String nome) throws IOException {
 
-		TakesScreenshot scrShot = ((TakesScreenshot)navegador());
-		File nomeArq = scrShot.getScreenshotAs(OutputType.FILE);
-		File destArq = new File("./src/evidencias/"+nome+".png");
-		FileUtils.copyFile(nomeArq, destArq);
-
-	}
-	
-	public void validarElementoVisivel(By elemento) {
-
-		boolean validacao = driver.findElement(elemento).isDisplayed();
-		assertTrue(validacao);
-	}
-	
-	public void validarTexto(By elemento, String texto) {
-		
-		String textoGet = pegarTexto(elemento);
-		String textoEsperado = texto;
-		assertEquals(textoEsperado, textoGet);
-	}
-	
-	public void validarAtributo(By elemento, String atributo, String valorEsperado) {
-		
-		String valorDoElemento = driver.findElement(elemento).getAttribute(atributo);
-		String valorDoElementoEsperado = valorEsperado;
-		assertEquals(valorDoElementoEsperado, valorDoElemento);
-		
-	}
-	
-	public String getUrl() {
-		
-		return driver.getCurrentUrl();
-	}
-	
-	public void HomePage() {
-		
-		click(By.xpath("//img[@alt='Home']"));
-	}
-	
-	public String getAtributo(By elemento, String value) {
-		
-		return driver.findElement(elemento).getAttribute(value);	
-		
-	}
-	
-	public void aceitarCookie() {
-		
-		click(By.id("epdsubmit"));
-	}
-	
-	public void validarTitulo(String texto) {
-		
-		String tituloAtual = driver.getTitle();
-		String tituloEsperado = texto;
-		assertEquals(tituloEsperado, tituloAtual);
-		
-	}
-	
-	public void validarCheckBox(By elemento) {
-		assertTrue(driver.findElement(elemento).isSelected());
-		
-	}
-	
-
-	
-	
-
-
-	
 }

@@ -22,36 +22,23 @@ public class validarCadastro extends Metodos{
 	}
 
 	@Test
-	public void test() throws InterruptedException {
+	public void validar_Inputs() throws InterruptedException {
 		
 		click(By.xpath("//*[text()='Continuar']"));
+		
 		Thread.sleep(2000);
 		digitar("Josivaldo", By.name("firstName"));
-		getAtributo(By.name("firstName"), "Josivaldo");
+		validarAtributo(By.name("firstName"), "value", "Josivaldo");
 		digitar("Silva", By.name("lastName"));
-		getAtributo(By.name("firstName"), "Silva");
-		digitar("7778657", By.name("invisalignID"));
-		getAtributo(By.name("firstName"), "7778657");
+		validarAtributo(By.name("lastName"), "value", "Silva");
+		digitar("7864536", By.name("invisalignID"));
+		validarAtributo(By.name("invisalignID"), "value", "7864536");
 		digitar("automacaotestes420@gmail.com", By.name("email"));
-		getAtributo(By.name("firstName"), "automacaotestes420@gmail.com");
-		digitar("teste@123", By.name("password"));
-		getAtributo(By.name("firstName"), "teste@123");
-		
-		//click(By.id("form-group-terms-check"));
-		//validarCheckBox(By.id("form-group-terms-check"));
-		Thread.sleep(2000);
-		driver.findElement(By.name("infoCheck")).click();
-		//validarCheckBox(By.name("infoCheck"));
+		validarAtributo(By.name("email"), "value", "automacaotestes420@gmail.com");
+		digitar("josivaldo123*", By.name("password"));
+		validarAtributo(By.name("password"), "value", "josivaldo123*");
 		
 		
-		
-		
-		
-		
-		
-
-		
-
 	}
 
 }

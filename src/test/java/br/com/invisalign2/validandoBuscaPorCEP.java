@@ -9,28 +9,26 @@ import org.openqa.selenium.By;
 
 import br.com.invisalign.core.Metodos;
 
-public class validandoBuscaPorCEP extends Metodos{
+public class validandoBuscaPorCEP extends Metodos {
 
 	@Before
 	public void setUp() throws Exception {
-		
+
 		iniciarTeste("chrome", urlPadrao);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		
+
 		fechar();
 	}
 
 	@Test
 	public void validar_campo_cep() {
 
-		String placeHolderAtual = getAtributo(By.xpath("//input[@type='tel']"), "placeholder");
-		assertEquals("CEP/Cidade", placeHolderAtual);
+		validarAtributo(By.xpath("//input[@type='tel']"), "placeholder", "CEP/Cidade");
 		digitar("02322290", By.xpath("//input[@type='tel']"));
-		String valorAtual = getAtributo(By.xpath("//input[@type='tel']"), "value");
-		assertEquals("02322290", valorAtual);
+		validarAtributo(By.xpath("//input[@type='tel']"), "value", "02322290");
 
 	}
 

@@ -54,27 +54,19 @@ public class PageHome extends Metodos {
 		
 		validarTexto(By.xpath("(//h2)[1]"), "invisa é a melhor escolha.");
 
-		String h2_1 = pegarTexto(By.xpath("(//h2)[1]"));
-		String h2_1_Esperado = "invisa é a melhor escolha.";
-		assertEquals(h2_1_Esperado, h2_1);
+
 
 		validarTexto(By.xpath("(//h2)[2]"), "Quanto custa Invisalign?");
 		
-		String h2_2 = pegarTexto(By.xpath("(//h2)[2]"));
-		String h2_2_Esperado = "Quanto custa Invisalign?";
-		assertEquals(h2_2_Esperado, h2_2);
+
 
 		validarTexto(By.xpath("(//h2)[3]"), "Quanto tempo dura o tratamento com Invisalign?");
 		
-		String h2_3 = pegarTexto(By.xpath("(//h2)[3]"));
-		String h2_3_Esperado = "Quanto tempo dura o tratamento com Invisalign?";
-		assertEquals(h2_3_Esperado, h2_3);
+
 
 		validarTexto(By.xpath("(//h2)[4]"), "Conheça nossas parcerias");
 		
-		String h2_4 = pegarTexto(By.xpath("(//h2)[4]"));
-		String h2_4_Esperado = "Conheça nossas parcerias";
-		assertEquals(h2_4_Esperado, h2_4);
+
 
 		validarTexto(By.xpath("//div[@class='section-heading col-12']"), "invisa é tratamento em 3 passos fáceis");
 		
@@ -245,19 +237,19 @@ public class PageHome extends Metodos {
 		assertTrue(portal_do_paciente.isDisplayed());
 		assertEquals("Portal do paciente|", portal_do_paciente.getText());
 		portal_do_paciente.click();
-		alternarAba1();
+		alternarAba(1);
 		assertEquals("https://my.invisalign.com.br/login", driver.getCurrentUrl());
 		fecharAba();
-		alternarAba0();
+		alternarAba(0);
 
 		WebElement portal_para_doutores = driver.findElement(By.xpath("(//a[@rel='noopener'])[2]"));
 		assertTrue(portal_para_doutores.isDisplayed());
 		assertEquals("Para doutores", portal_para_doutores.getText());
 		portal_para_doutores.click();
-		alternarAba1();
+		alternarAba(1);
 		assertEquals("https://www.doutor.invisalign.com.br/pt", driver.getCurrentUrl());
 		fecharAba();
-		alternarAba0();
+		alternarAba(0);
 
 		WebElement invisalign_para_mim = driver.findElement(By.xpath("(//a[@class='sa-link'])[1]"));
 		assertTrue(invisalign_para_mim.isDisplayed());
